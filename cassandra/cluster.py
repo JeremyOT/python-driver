@@ -2149,10 +2149,10 @@ class ResponseFuture(object):
                 pass
         with self._callback_lock:
             self._final_result = response
-            self._event.set()
-            if self._callback:
-                fn, args, kwargs = self._callback
-                fn(response, *args, **kwargs)
+        self._event.set()
+        if self._callback:
+            fn, args, kwargs = self._callback
+            fn(response, *args, **kwargs)
 
     def _set_final_exception(self, response):
         if self._metrics is not None:
@@ -2163,10 +2163,10 @@ class ResponseFuture(object):
             pass
         with self._callback_lock:
             self._final_exception = response
-            self._event.set()
-            if self._errback:
-                fn, args, kwargs = self._errback
-                fn(response, *args, **kwargs)
+        self._event.set()
+        if self._errback:
+            fn, args, kwargs = self._errback
+            fn(response, *args, **kwargs)
 
     def _retry(self, reuse_connection, consistency_level):
         if self._final_exception:
